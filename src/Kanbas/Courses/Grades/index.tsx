@@ -78,7 +78,7 @@ export default function AssignmentControlButton() {
                 <td>90%</td>
                 <td>78%</td>
                 <td>
-                <div className="d-flex align-items-center">
+                <div className="d-flex justify-content-center align-items-center">
                 <input type="text" className="form-control" defaultValue="92%" style={{ width: "70px" }}/>
                 <LiaFileExportSolid  className="position-relative fs-3" />
                 </div>

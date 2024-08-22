@@ -66,7 +66,7 @@ export default function Assignments() {
                       <strong>Due</strong> May 13 at 11:59pm | 100pts
                     </span>
                   </li>
-                  <li className="list-group-item no-border">
+                  <li className="list-group-item no-border ms-auto">
                     <LessonControlButtons />
                   </li>
                 </ul>
@@ -91,7 +91,7 @@ export default function Assignments() {
                       <strong>Due</strong> May 20 at 11:59pm | 100pts
                     </span>
                   </li>
-                  <li className="list-group-item no-border">
+                  <li className="list-group-item no-border ms-auto">
                     <LessonControlButtons />
                   </li>
                 </ul>
@@ -116,7 +116,7 @@ export default function Assignments() {
                       <strong>Due</strong> May 27 at 11:59pm | 100pts
                     </span>
                   </li>
-                  <li className="list-group-item no-border">
+                  <li className="list-group-item no-border ms-auto">
                     <LessonControlButtons />
                   </li>
                 </ul>

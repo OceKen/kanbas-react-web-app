@@ -10,7 +10,7 @@ import Grades from "./Grades";
 export default function Courses() {
   return (
     <div id="wd-courses">
-      <h2 className="text-danger" style={{marginLeft:"-1500px"}}>
+      <h2 className="text-danger" style={{marginLeft:"-1125px"}}>
         <FaAlignJustify className="me-4 fs-4 mb-1" />
         Course 1234
       </h2>
