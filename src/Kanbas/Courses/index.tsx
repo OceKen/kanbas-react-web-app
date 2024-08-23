@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router";
+import { Routes, Route, useParams, useLocation } from "react-router";
 import CoursesNavigation from "./Navigation";
 import Module from "./Module";
 import Home from "./Home";
@@ -6,13 +6,22 @@ import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
 import { FaAlignJustify } from "react-icons/fa";
 import Grades from "./Grades";
+import { courses } from "../Databases";
 
+//TODO make name placement dynamic
+//TodO fix bread crumbing
 export default function Courses() {
-  return (
+
+  const { cid } = useParams();
+  const course = courses.find((course: any) => course._id === cid);
+  console.log(course);
+  const {pathname} = useLocation();
+  console.log("courses:" + cid);
+    return (
     <div id="wd-courses">
       <h2 className="text-danger" style={{marginLeft:"-1125px"}}>
         <FaAlignJustify className="me-4 fs-4 mb-1" />
-        Course 1234
+        {course && course.name && cid}  &gt; {pathname.split("/")[4]}
       </h2>
       <hr />
       <div className="courses-content">

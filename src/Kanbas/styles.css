@@ -58,6 +58,6 @@ body * {
 
 .courses-routes {
   flex-grow: 1;
-  padding-left: 20px; /* Adjust as needed */
+  padding-left: 20px;
 }
 
