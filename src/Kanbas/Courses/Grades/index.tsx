@@ -1,7 +1,6 @@
 import { IoFunnelOutline } from "react-icons/io5";
 import GradesButtons from "./GradesButtons";
 import { FaSearch } from "react-icons/fa";
-import { LiaFileExportSolid } from "react-icons/lia";
 import { useParams } from "react-router-dom";
 import { enrollments, users, assignments, grades } from "../../Databases";
 
