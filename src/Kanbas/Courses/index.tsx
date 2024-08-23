@@ -9,14 +9,11 @@ import Grades from "./Grades";
 import { courses } from "../Databases";
 
 //TODO make name placement dynamic
-//TodO fix bread crumbing
 export default function Courses() {
 
   const { cid } = useParams();
   const course = courses.find((course: any) => course._id === cid);
-  console.log(course);
   const {pathname} = useLocation();
-  console.log("courses:" + cid);
     return (
     <div id="wd-courses">
       <h2 className="text-danger" style={{marginLeft:"-1125px"}}>

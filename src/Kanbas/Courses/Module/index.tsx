@@ -8,7 +8,7 @@ import * as db from "../../Databases";
 export default function Module() {
   const { cid } = useParams();
   const modules = db.modules;
-  console.log("Modules:" + cid);
+  
     return (
 
 <div id="wd-modules">

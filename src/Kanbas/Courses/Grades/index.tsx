@@ -2,8 +2,17 @@ import { IoFunnelOutline } from "react-icons/io5";
 import GradesButtons from "./GradesButtons";
 import { FaSearch } from "react-icons/fa";
 import { LiaFileExportSolid } from "react-icons/lia";
+import { useParams } from "react-router-dom";
+import { enrollments, users, assignments, grades } from "../../Databases";
 
-export default function AssignmentControlButton() {
+export default function Grades() {
+  const { cid } = useParams();
+
+  const courseEnrollments = enrollments.filter(enrollment => enrollment.course === cid);
+  const enrolledUsers = users.filter(user => courseEnrollments.some(enrollment => enrollment.user === user._id));
+  const courseAssignments = assignments.filter(assignment => assignment.course === cid);
+  const courseGrades = grades.filter(grade => courseAssignments.some(assignment => assignment._id === grade.assignment));
+
   return (
     <div>
       <div className="row">
@@ -61,59 +70,27 @@ export default function AssignmentControlButton() {
       <br />
       <br />
         <div>
-          <table className="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th className="col text-left">Student Names</th>
-                <th className="col">A1 SETUP</th>
-                <th className="col">A2 HTML</th>
-                <th className="col">A3 CSS</th>
-                <th className="col">A4 BOOTSTRAP</th>
+        <table className="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th className="col text-left">Student Names</th>
+              {courseAssignments.map(assignment => (
+                <th key={assignment._id} className="col">{assignment.title}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {enrolledUsers.map(user => (
+              <tr key={user._id}>
+                <th className="row text-danger">{user.firstName + " " + user.lastName}</th>
+                {courseAssignments.map(assignment => {
+                  const grade = courseGrades.find(grade => grade.student === user._id && grade.assignment === assignment._id);
+                  return <td key={assignment._id}>{grade ? `${grade.grade}%` : "N/A"}</td>;
+                })}
               </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th className="row text-danger">Alice Johnson</th>
-                <td>85%</td>
-                <td>90%</td>
-                <td>78%</td>
-                <td>
-                <div className="d-flex justify-content-center align-items-center">
-                <input type="text" className="form-control" defaultValue="92%" style={{ width: "70px" }}/>
-                <LiaFileExportSolid  className="position-relative fs-3" />
-                </div>
-                </td>
-              </tr>
-              <tr>
-                <th className="row text-danger">Bob Smith</th>
-                <td>88%</td>
-                <td>74%</td>
-                <td>91%</td>
-                <td>85%</td>
-              </tr>
-              <tr>
-                <th className="row text-danger">Carol Williams</th>
-                <td>92%</td>
-                <td>81%</td>
-                <td>87%</td>
-                <td>89%</td>
-              </tr>
-              <tr>
-                <th className="row text-danger">David Brown</th>
-                <td>76%</td>
-                <td>88%</td>
-                <td>84%</td>
-                <td>91%</td>
-              </tr>
-              <tr>
-                <th className="row text-danger">Eva Davis</th>
-                <td>90%</td>
-                <td>95%</td>
-                <td>79%</td>
-                <td>86%</td>
-              </tr>
-            </tbody>
-          </table>
+            ))}
+          </tbody>
+        </table>
         </div>
     </div>
   );

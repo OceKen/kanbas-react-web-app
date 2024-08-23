@@ -4,12 +4,17 @@ import { FaPenToSquare } from "react-icons/fa6";
 import LessonControlButtons from "../Module/LessonControlButtons";
 import { MdArrowDropDown } from "react-icons/md";
 import AssignmentControlButton from "./AssignmentControlButton";
+import { useParams } from "react-router-dom";
+import * as db from "../../Databases";
 // TODO: fix assignment details padding and lower Icons to the center
 
 export default function Assignments() {
+  const { cid } = useParams();
+  const assignments = db.assignments;
+  
   return (
     <div id="wd-assignments">
-      <span className="position-relative  float-start">
+      <span className="position-relative float-start">
         <FaSearch className="position-absolute search-icon" />
         <input
           id="wd-search-assignment"
@@ -45,82 +50,34 @@ export default function Assignments() {
               <AssignmentControlButton />
             </div>
             <ul className="wd-assignment-list list-group border-left-green rounded-0">
-              <li className="wd-assignmnet-list list-group-item ps-0">
-                <ul className="list-group list-group-horizontal">
-                  <li className="list-group-item no-border">
-                    <BsGripVertical className="me-2 fs-3" />{" "}
-                  </li>
-                  <li className="list-group-item no-border">
-                    <FaPenToSquare
-                      className="fs-3"
-                      style={{ color: "green" }}
-                    />{" "}
-                  </li>
-                  <li className="list-group-item no-border">
-                    
-                    <a className="wd-assignment-link" href="#/Kanbas/Courses/1234/Assignments/123">
-                    <strong className="float-start" style={{color:"black"}}>A1</strong></a><br />
-                    <span>
-                      <span style={{ color: "red" }}>Multiple Modules</span> |
-                      <strong>Not available until</strong> May 6 at 12:00 am |
-                      <strong>Due</strong> May 13 at 11:59pm | 100pts
-                    </span>
-                  </li>
-                  <li className="list-group-item no-border ms-auto">
-                    <LessonControlButtons />
-                  </li>
-                </ul>
-              </li>
-              <li className="wd-assignment-list-item list-group-item p-3 ps-0">
-                <ul className="list-group list-group-horizontal">
-                  <li className="list-group-item no-border">
-                    <BsGripVertical className="me-2 fs-3" />{" "}
-                  </li>
-                  <li className="list-group-item no-border">
-                    <FaPenToSquare
-                      className="fs-3"
-                      style={{ color: "green" }}
-                    />{" "}
-                  </li>
-                  <li className="list-group-item no-border">
-                  <a className="wd-assignment-link" href="#/Kanbas/Courses/1234/Assignments/124">
-                    <strong className="float-start" style={{color:"black"}}>A2</strong></a> <br />
-                    <span>
+            {assignments
+            .filter((assignment: any) => assignment.course === cid)
+            .map((assignment: any) =>
+            <li key={assignment._id} className="wd-assignment-list-item list-group-item p-3 ps-0">
+              <ul className="list-group list-group-horizontal">
+                <li className="list-group-item no-border">
+                  <BsGripVertical className="me-2 fs-3" />
+                </li>
+                <li className="list-group-item no-border">
+                  <FaPenToSquare className="fs-3" style={{ color: "green" }} />
+                </li>
+                <li className="list-group-item no-border">
+                  <a className="wd-assignment-link" href={`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}>
+                    <strong className="float-start" style={{ color: "black" }}>{assignment.title}</strong>
+                  </a>
+                  <br />
+                  <span>
                     <span style={{ color: "red" }}>Multiple Modules</span> |
-                      <strong>Not available until</strong> May 12 at 12:00 am |
-                      <strong>Due</strong> May 20 at 11:59pm | 100pts
-                    </span>
-                  </li>
-                  <li className="list-group-item no-border ms-auto">
-                    <LessonControlButtons />
-                  </li>
-                </ul>
-              </li>
-              <li className="wd-assignment-list-item list-group-item p-3 ps-0">
-                <ul className="list-group list-group-horizontal">
-                  <li className="list-group-item no-border justify-content-center">
-                    <BsGripVertical className="me-2 fs-3" />
-                  </li>
-                  <li className="list-group-item no-border">
-                    <FaPenToSquare
-                      className="fs-3"
-                      style={{ color: "green" }}
-                    />{" "}
-                  </li>
-                  <li className="list-group-item no-border">
-                  <a className="wd-assignment-link" href="#/Kanbas/Courses/1234/Assignments/125">
-                    <strong className="float-start" style={{color:"black"}}>A3</strong></a> <br />
-                    <span>
-                    <span style={{ color: "red" }}>Multiple Modules</span> |
-                      <strong>Not available until</strong> May 20 at 12:00 am |
-                      <strong>Due</strong> May 27 at 11:59pm | 100pts
-                    </span>
-                  </li>
-                  <li className="list-group-item no-border ms-auto">
-                    <LessonControlButtons />
-                  </li>
-                </ul>
-              </li>
+                    <strong>Not available until</strong> {assignment.availableFrom} |
+                    <strong>Due</strong> {assignment.dueDate} | {assignment.points}pts
+                  </span>
+                </li>
+                <li className="list-group-item no-border ms-auto">
+                  <LessonControlButtons />
+                </li>
+              </ul>
+            </li>
+          )}
             </ul>
           </li>
         </ul>
