@@ -1,17 +1,23 @@
 import { BsGripVertical } from "react-icons/bs";
 import { FaPlus, FaSearch } from "react-icons/fa";
 import { FaPenToSquare } from "react-icons/fa6";
-import LessonControlButtons from "../Module/LessonControlButtons";
 import { MdArrowDropDown } from "react-icons/md";
+import AssignmentsControlButton from "./AssignmentsControlButton";
 import AssignmentControlButton from "./AssignmentControlButton";
-import { useParams } from "react-router-dom";
-import * as db from "../../Databases";
-// TODO: fix assignment details padding and lower Icons to the center
+import { Link, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteAssignment } from "./reducer";
 
-export default function Assignments() {
-  const { cid } = useParams();
-  const assignments = db.assignments;
+export default function Assignments(
   
+) {
+  const { cid } = useParams();
+  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+  const dispatch = useDispatch();
+
+  const assignment = { _id: "000" };
+
+
   return (
     <div id="wd-assignments">
       <span className="position-relative float-start">
@@ -30,13 +36,17 @@ export default function Assignments() {
           />
           Group
         </button>
-        <button id="wd-add-assignment" className="btn btn-danger">
+        <Link
+          id="wd-add-assignment"
+          to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
+          className="btn btn-danger"
+        >
           <FaPlus
             className="position-relative me-2"
             style={{ bottom: "1px" }}
           />
           Assignment
-        </button>
+        </Link>
       </span>
       <br />
       <br />
@@ -47,37 +57,54 @@ export default function Assignments() {
               <BsGripVertical className="me-2 fs-3" />
               <MdArrowDropDown className="me-2 fs-3" />
               Assignments
-              <AssignmentControlButton />
+              <AssignmentsControlButton />
             </div>
             <ul className="wd-assignment-list list-group border-left-green rounded-0">
-            {assignments
-            .filter((assignment: any) => assignment.course === cid)
-            .map((assignment: any) =>
-            <li key={assignment._id} className="wd-assignment-list-item list-group-item p-3 ps-0">
-              <ul className="list-group list-group-horizontal">
-                <li className="list-group-item no-border">
-                  <BsGripVertical className="me-2 fs-3" />
-                </li>
-                <li className="list-group-item no-border">
-                  <FaPenToSquare className="fs-3" style={{ color: "green" }} />
-                </li>
-                <li className="list-group-item no-border">
-                  <a className="wd-assignment-link" href={`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}>
-                    <strong className="float-start" style={{ color: "black" }}>{assignment.title}</strong>
-                  </a>
-                  <br />
-                  <span>
-                    <span style={{ color: "red" }}>Multiple Modules</span> |
-                    <strong>Not available until</strong> {assignment.availableFrom} |
-                    <strong>Due</strong> {assignment.dueDate} | {assignment.points}pts
-                  </span>
-                </li>
-                <li className="list-group-item no-border ms-auto">
-                  <LessonControlButtons />
-                </li>
-              </ul>
-            </li>
-          )}
+              {assignments
+                .filter((assignment: any) => assignment.course === cid)
+                .map((assignment: any) => (
+                  <li
+                    key={assignment._id}
+                    className="wd-assignment-list-item list-group-item p-3 ps-0"
+                  >
+                    <ul className="list-group list-group-horizontal">
+                      <li className="list-group-item no-border">
+                        <BsGripVertical className="me-2 fs-3" />
+                      </li>
+                      <li className="list-group-item no-border">
+                        <FaPenToSquare
+                          className="fs-3"
+                          style={{ color: "green" }}
+                        />
+                      </li>
+                      <li className="list-group-item no-border">
+                        <a
+                          className="wd-assignment-link"
+                          href={`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
+                        >
+                          <strong
+                            className="float-start"
+                            style={{ color: "black" }}
+                          >
+                            {assignment.title}
+                          </strong>
+                        </a>
+                        <br />
+                        <span>
+                          <span style={{ color: "red" }}>Multiple Modules</span>{" "}
+                          |<strong>Not available until</strong>{" "}
+                          {assignment.availableFrom} |<strong>Due</strong>{" "}
+                          {assignment.dueDate} | {assignment.points}pts
+                        </span>
+                      </li>
+                      <li className="list-group-item no-border ms-auto">
+                        <AssignmentControlButton
+                        assignmentId={assignment._id}
+                        deleteAssignment={(assignmentId) => dispatch(deleteAssignment(assignmentId))} />
+                      </li>
+                    </ul>
+                  </li>
+                ))}
             </ul>
           </li>
         </ul>

@@ -1,13 +1,9 @@
 import { Link, useLocation, useParams } from "react-router-dom";
 import "./index.css";
 
-// TODO fix home defaulting to active
 export default function CoursesNavigation() {
   const { pathname } = useLocation();
   const { cid } = useParams();
-
-
-  console.log(pathname);
 
   const links = [
     {label: "Home", path: `/Kanbas/Courses/${cid}/Home`},
