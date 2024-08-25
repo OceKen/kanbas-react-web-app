@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addAssignment, updateAssignment } from "./reducer";
+import * as client from "./client";
 export default function AssignmentEditor()    
  {
 
@@ -33,6 +34,16 @@ export default function AssignmentEditor()
       }
     }
   }, [id]);
+
+  const createAssignment = async (assignment: any) => {
+    const newAssignment = await client.createAssignment(cid as string, assignment);
+    dispatch(addAssignment(newAssignment));
+  };
+
+  const saveAssignment = async (assignment: any) => {
+    const status = await client.updateAssignment(assignment);
+    dispatch(updateAssignment(assignment));
+  };
 
 
 
@@ -261,7 +272,7 @@ export default function AssignmentEditor()
           <Link
             to={`/Kanbas/Courses/${cid}/Assignments`}
             className="btn btn-danger"
-            onClick={id === "000" ? () => dispatch(addAssignment(assignment)) : () => dispatch(updateAssignment(assignment))}
+            onClick={id === "000" ? () => {createAssignment(assignment)} : () => {saveAssignment(assignment)}}
             
           >
             Save

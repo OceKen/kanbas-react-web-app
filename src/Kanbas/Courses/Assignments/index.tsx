@@ -6,7 +6,9 @@ import AssignmentsControlButton from "./AssignmentsControlButton";
 import AssignmentControlButton from "./AssignmentControlButton";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteAssignment } from "./reducer";
+import { deleteAssignment, setAssignments } from "./reducer";
+import * as client from "./client";
+import { useEffect } from "react";
 
 export default function Assignments(
   
@@ -14,6 +16,18 @@ export default function Assignments(
   const { cid } = useParams();
   const { assignments } = useSelector((state: any) => state.assignmentsReducer);
   const dispatch = useDispatch();
+  const fetchAssignments = async () => {
+    const assignment = await client.findAssignmentsForCourse(cid as string);
+    dispatch(setAssignments(assignment));
+  };
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
+  const removeAssignment = async (assignmentId: string) => {
+    await client.deleteAssignment(assignmentId);
+    dispatch(deleteAssignment(assignmentId));
+  };
+
 
   const assignment = { _id: "000" };
 
@@ -100,7 +114,7 @@ export default function Assignments(
                       <li className="list-group-item no-border ms-auto">
                         <AssignmentControlButton
                         assignmentId={assignment._id}
-                        deleteAssignment={(assignmentId) => dispatch(deleteAssignment(assignmentId))} />
+                        deleteAssignment={(assignmentId) => {removeAssignment(assignmentId)}} />
                       </li>
                     </ul>
                   </li>
