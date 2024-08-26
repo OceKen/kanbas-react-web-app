@@ -56,12 +56,12 @@ export default function Kanbas() {
         <KanbasNavigation />
         <div className="wd-main-content-offset p-3">
           <Routes>
-            <Route path="/" element={<Navigate to="Dashboard" />} />
+
             <Route path="Account" element={<Account />} />
             <Route
               path="Dashboard"
               element={
-                <ProtectedRoute>
+      
                   <Dashboard
                     courses={courses}
                     course={course}
@@ -70,7 +70,7 @@ export default function Kanbas() {
                     deleteCourse={deleteCourse}
                     updateCourse={updateCourse}
                   />
-                </ProtectedRoute>
+        
               }
             />
             <Route
