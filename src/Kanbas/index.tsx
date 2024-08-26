@@ -56,12 +56,10 @@ export default function Kanbas() {
         <KanbasNavigation />
         <div className="wd-main-content-offset p-3">
           <Routes>
-
             <Route path="Account" element={<Account />} />
             <Route
               path="Dashboard"
               element={
-      
                   <Dashboard
                     courses={courses}
                     course={course}
@@ -76,9 +74,7 @@ export default function Kanbas() {
             <Route
               path="Courses/:cid/*"
               element={
-                <ProtectedRoute>
                   <Courses courses={courses} />
-                </ProtectedRoute>
               }
             />
             <Route path="Calendar" element={<h1>Calendar</h1>} />
